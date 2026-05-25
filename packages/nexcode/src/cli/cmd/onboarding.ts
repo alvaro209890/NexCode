@@ -40,8 +40,8 @@ export const runOnboarding = Effect.fn("Cli.onboarding.run")(function* () {
 
   // Update global config with DeepSeek as default
   const config: Config.Info = {
-    model: "deepseek/deepseek-chat", // DeepSeek v4 Pro/Flash are often mapped via deepseek-chat or specific IDs
-    small_model: "deepseek/deepseek-chat",
+    model: "deepseek/deepseek-v4-pro",
+    small_model: "deepseek/deepseek-v4-flash",
     provider: {
       deepseek: {
         name: "DeepSeek",

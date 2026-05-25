@@ -1089,6 +1089,14 @@ export function options(input: {
     }
   }
 
+  if (input.model.api.id.toLowerCase().includes("deepseek-v4-pro")) {
+    result["reasoningEffort"] = "high"
+  }
+
+  if (input.model.api.id.toLowerCase().includes("deepseek-v4-flash")) {
+    result["reasoningEffort"] = "low"
+  }
+
   if (input.model.providerID === "openai" || input.providerOptions?.setCacheKey) {
     result["promptCacheKey"] = input.sessionID
   }
