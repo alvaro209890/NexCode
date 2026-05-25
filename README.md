@@ -8,6 +8,44 @@
   </a>
 </p>
 <p align="center">The next-generation open source AI coding agent.</p>
+
+## 🚀 Quick Install (Linux & macOS)
+
+Install NexCode with a single command:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/alvaro209890/NexCode/dev/install | bash
+```
+
+## ✨ Key Features
+
+- **Optimized for DeepSeek v4:** Built-in support and optimization for `deepseek-v4-pro` and `deepseek-v4-flash`.
+- **Automatic Reasoning (Thinking Mode):** NexCode automatically configures the best reasoning effort for your tasks.
+- **Privacy First:** Your API keys are stored locally and never shared.
+- **Easy Onboarding:** On first run, NexCode guides you through the setup to get you coding in seconds.
+
+## 🛠 Usage
+
+After installation, simply run:
+
+```bash
+nexcode
+```
+
+On your first run, you will be asked for your DeepSeek API key.
+
+---
+
+## 🏗 Development
+
+NexCode is a monorepo powered by [Bun](https://bun.sh).
+
+```bash
+git clone https://github.com/alvaro209890/NexCode.git
+cd NexCode
+bun install
+bun dev
+```
 <p align="center">
   <a href="https://opencode.ai/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
   <a href="https://www.npmjs.com/package/opencode-ai"><img alt="npm" src="https://img.shields.io/npm/v/opencode-ai?style=flat-square" /></a>
