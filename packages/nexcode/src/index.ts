@@ -35,6 +35,7 @@ import { Global } from "@opencode-ai/core/global"
 import { JsonMigration } from "@/storage/json-migration"
 import { Database } from "@/storage/db"
 import { errorMessage } from "./util/error"
+import { runOnboarding } from "./cli/cmd/onboarding"
 import { PluginCommand } from "./cli/cmd/plug"
 import { Heap } from "./cli/heap"
 import { drizzle } from "drizzle-orm/bun-sqlite"
@@ -109,12 +110,44 @@ const cli = yargs(args)
     process.env.OPENCODE = "1"
     process.env.OPENCODE_PID = String(process.pid)
 
-    Log.Default.info("opencode", {
+    Log.Default.info("nexcode", {
       version: InstallationVersion,
       args: process.argv.slice(2),
       process_role: processMetadata.processRole,
       run_id: processMetadata.runID,
     })
+
+    // Run custom onboarding for NexCode
+    if (
+      !process.argv.includes("--help") &&
+      !process.argv.includes("-h") &&
+      !process.argv.includes("--version") &&
+      !process.argv.includes("-v")
+    ) {
+      const { Auth } = await import("./auth")
+      const { Config } = await import("./config/config")
+      const { AppFileSystem } = await import("@opencode-ai/core/filesystem")
+      const { Env } = await import("./env")
+      const { Npm } = await import("@opencode-ai/core/npm")
+      const { FetchHttpClient } = await import("effect/unstable/http")
+      const { EffectFlock } = await import("@opencode-ai/core/util/effect-flock")
+      const { Account } = await import("@/account/account")
+
+      await Effect.runPromise(
+        runOnboarding().pipe(
+          Effect.provide(Config.layer),
+          Effect.provide(Auth.defaultLayer),
+          Effect.provide(AppFileSystem.defaultLayer),
+          Effect.provide(Env.defaultLayer),
+          Effect.provide(Npm.defaultLayer),
+          Effect.provide(FetchHttpClient.layer),
+          Effect.provide(EffectFlock.defaultLayer),
+          Effect.provide(Account.defaultLayer),
+        ),
+      ).catch(() => {
+        // Silently fail or handle onboarding cancellation
+      })
+    }
 
     const marker = path.join(Global.Path.data, "opencode.db")
     if (!(await Filesystem.exists(marker))) {
